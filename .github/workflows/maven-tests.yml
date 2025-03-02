@@ -20,7 +20,6 @@ jobs:
 
       chrome:
         image: seleniarm/node-chromium:latest  # Use latest ARM-compatible Chrome node
-        platform: linux/arm64
         depends_on:
           - selenium-hub
         env:
