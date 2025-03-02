@@ -34,8 +34,8 @@ public class GoogleSearchTest {
         //chromeOptions.addArguments("--user-data-dir=" + tempDir.toAbsolutePath().toString());
         chromeOptions.addArguments("--remote-allow-origins=*,--headless=new","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized");
         chromeOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
-        chromeOptions.setExperimentalOption("excludeSwitches", Arrays.asList("enable-automation"));
-        chromeOptions.setExperimentalOption("useAutomationExtension", false);
+        //chromeOptions.setExperimentalOption("excludeSwitches", Arrays.asList("enable-automation"));
+        //chromeOptions.setExperimentalOption("useAutomationExtension", false);
 //        driver = new ChromeDriver(chromeOptions);
 //        driver.manage().window().maximize();
 //        searchPage = new GoogleSearchPage(driver);
