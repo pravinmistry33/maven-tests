@@ -38,6 +38,7 @@ public class GoogleSearchTest {
         driver.get("https://www.google.com");
         searchPage.enterSearchQuery("Maven Selenium Automation");
         searchPage.clickSearchButton();
+        System.out.println(driver.getTitle());
         Assert.assertTrue(driver.getTitle().contains("Maven Selenium Automation"));
     }
 
