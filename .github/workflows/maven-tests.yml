@@ -10,36 +10,27 @@ on:
 
 jobs:
   selenium-test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '11'
+      - name: Install Chrome & ChromeDriver (macOS)
+        run: |
+          brew install google-chrome
+          brew install chromedriver
 
-    - name: Cache Maven Dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: maven-
+      - name: Kill Any Running Chrome Processes
+        run: |
+          pkill -9 chrome || true
+          pkill -9 chromedriver || true
 
-    - name: Install Chrome & ChromeDriver
-      run: |
-        sudo apt update
-        sudo apt install -y wget curl unzip xvfb
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get install -f -y
-        LATEST_CHROMEDRIVER=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-        wget https://chromedriver.storage.googleapis.com/${LATEST_CHROMEDRIVER}/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/local/bin/
-        chmod +x /usr/local/bin/chromedriver
+      - name: Run Tests
+        run: mvn clean test
 
-    - name: Run Tests
-      run: mvn clean test
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: target/surefire-reports/testng-results.xml

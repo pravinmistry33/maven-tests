@@ -12,16 +12,22 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class GoogleSearchTest {
     WebDriver driver;
     GoogleSearchPage searchPage;
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws IOException {
         WebDriverManager.chromedriver().clearDriverCache().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
+        Path tempDir = Files.createTempDirectory("chrome-profile");
         chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
-        //chromeOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
+        chromeOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
+        chromeOptions.addArguments("--user-data-dir=" + tempDir.toAbsolutePath().toString());
         driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         searchPage = new GoogleSearchPage(driver);
