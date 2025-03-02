@@ -12,6 +12,18 @@ jobs:
   selenium-test:
     runs-on: macos-latest
 
+    services:
+      selenium-hub:
+        image: selenium/hub:latest
+        ports:
+          - 4444:4444
+      chrome:
+        image: selenium/node-chrome:latest
+        env:
+          SE_EVENT_BUS_HOST: selenium-hub
+          SE_EVENT_BUS_PUBLISH_PORT: 4442
+          SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
