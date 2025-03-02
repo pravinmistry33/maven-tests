@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 public class GoogleSearchTest {
     WebDriver driver;
@@ -24,10 +25,13 @@ public class GoogleSearchTest {
     public void setup() throws IOException {
         WebDriverManager.chromedriver().clearDriverCache().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
-        Path tempDir = Files.createTempDirectory("chrome-profile");
         chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
-        chromeOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
+        Path tempDir = Files.createTempDirectory("chrome-profile");
         chromeOptions.addArguments("--user-data-dir=" + tempDir.toAbsolutePath().toString());
+        chromeOptions.addArguments("--headless=new","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized");
+        chromeOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
+        chromeOptions.setExperimentalOption("excludeSwitches", Arrays.asList("enable-automation"));
+        chromeOptions.setExperimentalOption("useAutomationExtension", false);
         driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         searchPage = new GoogleSearchPage(driver);
@@ -35,11 +39,18 @@ public class GoogleSearchTest {
 
     @Test
     public void testGoogleSearch() throws InterruptedException {
-        driver.get("https://www.google.com");
-        searchPage.enterSearchQuery("Maven Selenium Automation");
-        searchPage.clickSearchButton();
-        System.out.println(driver.getTitle());
-        Assert.assertTrue(driver.getTitle().contains("Maven Selenium Automation"));
+        try {
+            driver.get("https://www.google.com");
+            searchPage.enterSearchQuery("Maven Selenium Automation");
+            searchPage.randomDelay();
+            searchPage.clickSearchButton();
+            Thread.sleep(3000);
+            System.out.println(driver.getTitle());
+            Assert.assertTrue(driver.getTitle().contains("Maven Selenium Automation"));
+        } catch (AssertionError e){
+            searchPage.captureScreenshot("AssertionFailure");
+            throw e;
+        }
     }
 
     @AfterClass
