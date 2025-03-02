@@ -36,9 +36,9 @@ public class GoogleSearchTest {
         chromeOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
         //chromeOptions.setExperimentalOption("excludeSwitches", Arrays.asList("enable-automation"));
         //chromeOptions.setExperimentalOption("useAutomationExtension", false);
-//        driver = new ChromeDriver(chromeOptions);
-//        driver.manage().window().maximize();
-//        searchPage = new GoogleSearchPage(driver);
+        //driver = new ChromeDriver(chromeOptions);
+        //driver.manage().window().maximize();
+        //searchPage = new GoogleSearchPage(driver);
 
         driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeOptions);
         searchPage = new GoogleSearchPage(driver);

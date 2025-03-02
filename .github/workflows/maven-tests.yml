@@ -26,6 +26,17 @@ jobs:
           pkill -9 chrome || true
           pkill -9 chromedriver || true
 
+      - name: Wait for Selenium Grid to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -sSL "http://localhost:4444/status" | grep -q '"ready":true'; then
+              echo "Selenium Grid is ready!";
+              break;
+            fi
+            echo "Waiting for Selenium Grid...";
+            sleep 5;
+          done
+
       - name: Run Tests
         run: mvn clean test
 
