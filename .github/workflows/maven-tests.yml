@@ -20,11 +20,15 @@ jobs:
         run: |
           brew install google-chrome
           brew install chromedriver
+          brew install geckodriver
+          brew install --cask firefox
 
       - name: Kill Any Running Chrome Processes
         run: |
           pkill -9 chrome || true
           pkill -9 chromedriver || true
+          pkill -9 firefox || true
+          pkill -9 geckodriver || true
 
       - name: Wait for Selenium Grid to be ready
         run: |
