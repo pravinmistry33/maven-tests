@@ -54,7 +54,7 @@ public class GoogleSearchTest {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.addArguments("--disable-blink-features=AutomationControlled");
             firefoxOptions.addArguments("--headless","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized","--disable-extensions");
-            firefoxOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
+            //firefoxOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
             //firefoxOptions.addPreference("general.useragent.override","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
             firefoxOptions.setProfile(new FirefoxProfile(new File("/Users/pravinmistry/Library/Application Support/Firefox/Profiles/7s2j4yfa.default-release-1737955747675")));
             //driver = new RemoteWebDriver(new URL(seleniumGridURL), firefoxOptions);
