@@ -46,19 +46,19 @@ public class GoogleSearchTest {
             chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
             chromeOptions.addArguments("--remote-allow-origins=*","--headless=new","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized");
             chromeOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
-            //driver = new RemoteWebDriver(new URL(seleniumGridURL), chromeOptions);
-            driver = new ChromeDriver(chromeOptions);
+            driver = new RemoteWebDriver(new URL(seleniumGridURL), chromeOptions);
+            //driver = new ChromeDriver(chromeOptions);
         }else {
             capabilities.setBrowserName("firefox");
             WebDriverManager.firefoxdriver().clearDriverCache().setup();
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.addArguments("--disable-blink-features=AutomationControlled");
             firefoxOptions.addArguments("--headless","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized","--disable-extensions");
-            //firefoxOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
+            firefoxOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
             //firefoxOptions.addPreference("general.useragent.override","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
-            firefoxOptions.setProfile(new FirefoxProfile(new File("/Users/pravinmistry/Library/Application Support/Firefox/Profiles/7s2j4yfa.default-release-1737955747675")));
-            //driver = new RemoteWebDriver(new URL(seleniumGridURL), firefoxOptions);
-            driver = new FirefoxDriver(firefoxOptions);
+            //firefoxOptions.setProfile(new FirefoxProfile(new File("/Users/pravinmistry/Library/Application Support/Firefox/Profiles/7s2j4yfa.default-release-1737955747675")));
+            driver = new RemoteWebDriver(new URL(seleniumGridURL), firefoxOptions);
+            //driver = new FirefoxDriver(firefoxOptions);
         }
         searchPage = new GoogleSearchPage(driver);
     }
