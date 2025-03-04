@@ -2,8 +2,12 @@ package com.automation.pages;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.io.FileHandler;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,12 +33,18 @@ public class GoogleSearchPage {
         driver.findElement(searchButton).submit();
     }
 
-    public void captureScreenshot(String testName) {
+    public String captureScreenshot(String screenshotName) {
         try {
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(src, new File("screenshots/" + testName + ".png"));
-        } catch (Exception e) {
-            System.out.println("Failed to capture screenshot: " + e.getMessage());
+            String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            String filePath = System.getProperty("user.dir") + "/screenshots/" + screenshotName + "_" + timestamp + ".png";
+            File dest = new File(filePath);
+            FileUtils.copyFile(src, dest);
+            System.out.println(filePath);
+            return filePath;
+        } catch (IOException e) {
+            System.out.println("Screenshot capture failed: " + e.getMessage());
+            return null;
         }
     }
 
