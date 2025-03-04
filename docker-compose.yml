@@ -4,6 +4,10 @@ services:
     container_name: selenium-hub
     ports:
       - "4444:4444"
+      - "4442:4442"  # Event bus publish
+      - "4443:4443"  # Event bus subscribe
+    environment:
+      - SE_NODE_MAX_SESSIONS=5  # Allow up to 5 concurrent sessions
 
   chrome:
     image: seleniarm/node-chromium:latest  # Use latest ARM-compatible Chrome node
@@ -13,9 +17,9 @@ services:
       - selenium-hub
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
-      - SE_EVENT_BUS_PORT=4442
-      - SE_EVENT_BUS_PUBLISH_PORT=4443
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4444
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSION=1  # One session per node to prevent overload
     shm_size: "2g"
 
   firefox:
@@ -26,7 +30,10 @@ services:
       - selenium-hub
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
-      - SE_EVENT_BUS_PORT=4442
-      - SE_EVENT_BUS_PUBLISH_PORT=4443
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4444
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSION=1  # One session per node to prevent overload
+    volumes:
+      - /Users/pravinmistry/Library/Application Support/Firefox/Profiles/7s2j4yfa.default-release-1737955747675:/home/seluser/.mozilla/firefox/myprofile
+      - /Users/pravinmistry/Library/Application Support/Firefox/profiles.ini:/home/seluser/.mozilla/firefox/profiles.ini
     shm_size: "2g"

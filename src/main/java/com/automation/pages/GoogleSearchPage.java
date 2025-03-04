@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 
 import java.io.File;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GoogleSearchPage {
@@ -18,9 +19,13 @@ public class GoogleSearchPage {
 
     public void enterSearchQuery(String query) {
         driver.findElement(searchBox).sendKeys(query);
+        //slowType(driver.findElement(searchBox), query);
     }
 
-    public void clickSearchButton() {
+    public void clickSearchButton() throws InterruptedException {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,300)");
+        Thread.sleep(2000);  // 2s delay before clicking
         driver.findElement(searchButton).submit();
     }
 
@@ -39,6 +44,17 @@ public class GoogleSearchPage {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void slowType(WebElement element, String text) {
+        for (char ch : text.toCharArray()) {
+            element.sendKeys(Character.toString(ch));
+            try {
+                Thread.sleep(new Random().nextInt(300) + 200); // Random delay between 200-500ms
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

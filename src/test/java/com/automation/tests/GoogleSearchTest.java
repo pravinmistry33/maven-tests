@@ -40,23 +40,33 @@ public class GoogleSearchTest {
         String seleniumGridURL = "http://localhost:4444/wd/hub";  // Change if using a different grid URL
         DesiredCapabilities capabilities = new DesiredCapabilities();
         if (browser.equalsIgnoreCase("chrome")) {
+            System.out.println("Running code in chrome");
             capabilities.setBrowserName("chrome");
             WebDriverManager.chromedriver().clearDriverCache().setup();
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
-            chromeOptions.addArguments("--remote-allow-origins=*","--headless=new","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized");
+            chromeOptions.addArguments("--remote-allow-origins=*","--headless","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized");
             chromeOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
             driver = new RemoteWebDriver(new URL(seleniumGridURL), chromeOptions);
             //driver = new ChromeDriver(chromeOptions);
         }else {
             capabilities.setBrowserName("firefox");
-            WebDriverManager.firefoxdriver().clearDriverCache().setup();
+            System.out.println("Running code in firefox");
+            //WebDriverManager.firefoxdriver().clearDriverCache().setup();
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.addArguments("--disable-blink-features=AutomationControlled");
+            firefoxOptions.addPreference("general.useragent.override", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+            firefoxOptions.addPreference("dom.webdriver.enabled", false);
+            firefoxOptions.addPreference("useAutomationExtension", false);
             firefoxOptions.addArguments("--headless","--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--start-maximized","--disable-extensions");
-            firefoxOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
-            //firefoxOptions.addPreference("general.useragent.override","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
-            //firefoxOptions.setProfile(new FirefoxProfile(new File("/Users/pravinmistry/Library/Application Support/Firefox/Profiles/7s2j4yfa.default-release-1737955747675")));
+            //Set profile path manually
+//            File profileDir = new File("/home/seluser/.mozilla/firefox/myprofile");
+//            if (profileDir.exists()) {
+//                System.out.println("Firefox profile found, using it.");
+//                firefoxOptions.setProfile(new FirefoxProfile(profileDir));
+//            } else {
+//                System.out.println("Firefox profile not found, using default settings.");
+//            }
             driver = new RemoteWebDriver(new URL(seleniumGridURL), firefoxOptions);
             //driver = new FirefoxDriver(firefoxOptions);
         }
